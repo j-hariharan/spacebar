@@ -1,0 +1,175 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }}</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+<style>
+    .header {
+        background-color:rgb(25, 25, 25);
+        padding: 8px;
+        text-align: center;
+        color: rgb(204, 204, 204);
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        word-spacing: 1px;
+    }
+    
+    #timer {
+        float: right;
+        width: 170px;
+        font-size: 45px;
+        color: white;
+        padding: 20px;
+        font-family: 'Roboto', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: bold;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    * {
+        margin: 0px;
+    }
+
+    .column {
+        float: left;
+        width: 50%;
+        height: 100vh;
+    }
+    
+    .column .static {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        background-image: url("/blue.jpeg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    p {
+        text-align: center;
+        font-family:'Roboto', sans-serif ;
+        font-size: 25;
+        color: rgba(224, 219, 219, 0.712);
+    }
+    a:link, a:visited {
+        color:rgb(204, 204, 204);
+        background-color:rgb(25, 25, 25) ;
+        padding: 30px 50px;
+        text-decoration: none;
+        text-align: center;
+        display: inline block;
+        font-family: 'Roboto', sans-serif;
+        font-size: x-large;
+        
+        display: block;
+        min-width: 320px;
+    }
+
+    a:hover, a:active {
+        color: rgb(25, 25, 25);
+        background-color:rgb(224, 219, 219, 0.712) ;
+    }
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>S P A C E B A R</h1>
+    </div>
+    <div id="timer">
+        <span></span>
+        <span>:</span>
+        <span></span>
+    </div>
+    <div class="row">
+        <div class="column">
+            <br>
+            <br>
+            <pre style="color: rgb(224, 219, 219, 0.712); font-family: 'Roboto', sans-serif; font-size: 25;">
+            <p style="font-size: 40;text-align: left;"><b>          Ajan Kloss</b></p>
+                The storm belt. Because of its everlasting hurricanes, no
+                mortal has ever existed on this planet. But this does not
+                mean that the planet is desolate. It has been inhabited by
+                13 immortals destined to protect the map from all 13 directions.
+                However there is still hope. An age old prophecy says that one
+                day, a mortal soul will free the map from this planet and lift
+                the curse of immortality. So be the one to fulfill this prophecy.
+                </pre>
+
+        </div>
+        <div class="column">
+            <div class="static">
+                <br>
+                <br>
+                {{#each questions}}
+                    <br><br>
+                    <p><a href="/question/{{id}}" target="_blank">{{name}} - {{points}} &nbsp;&nbsp;&nbsp; {{answered}}</a></p>
+                    <br><br>
+                {{/each}}
+                <br><br>
+            </div>
+        </div>
+    </div>
+
+    
+<script>
+    function format (n) {
+        if (n<10)
+            return "0"+n
+        
+        else 
+            return "" + n
+    }
+
+
+    let timer = document.querySelector('#timer')
+
+    let endtime = parseInt({{ deadline._seconds }})
+    let now = parseInt((new Date()).getTime()/1000)
+
+    // set initial
+    let secondsleft = endtime - now
+    let seconds = secondsleft % 60
+    let minutes = parseInt(secondsleft/60)
+
+    timer.children[0].innerHTML = format(minutes)
+    timer.children[2].innerHTML = format(seconds)
+
+    setInterval(() => {    
+        let now = parseInt((new Date()).getTime()/1000)
+        let secondsleft = endtime - now
+
+        if (secondsleft < 0) {
+            clearInterval(interval)
+        }
+
+        let seconds = secondsleft % 60
+        let minutes = parseInt(secondsleft/60)        
+
+        timer.children[0].innerHTML = format(minutes)
+        timer.children[2].innerHTML = format(seconds)
+    }, 1000)
+
+
+</script>
+</body>
+</html>
+

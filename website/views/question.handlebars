@@ -1,0 +1,249 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+<style>
+    .header {
+        background-color:rgb(25, 25, 25);
+        padding: 8px;
+        text-align: center;
+        color: rgb(204, 204, 204);
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        word-spacing: 1px;  
+        margin-left: -50px;
+    }
+    
+    #timer {
+        float: right;
+        width: 170px;
+        font-size: 45px;
+        color: white;
+        padding: 20px;
+        font-family: 'Roboto', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: bold;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    
+    * {
+        margin: 0px;
+    }
+
+    body {
+        background-image: url("/{{level_id}}.jpeg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin-left: 50px;
+    }
+
+    p {
+        text-align: left;
+        font-family: 'Roboto', sans-serif;
+        font-size: 25;
+        color: rgb(224, 219, 219, 0.712);
+    }
+
+    a:link, a:visited {
+        color:rgb(204, 204, 204);
+        background-color:rgb(25, 25, 25) ;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 50px;
+        padding-right: 50px;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+        font-family: 'Roboto', sans-serif;
+        font-size: x-large;
+        width: 300px;
+
+    }
+
+    a:hover, a:active {
+        color: rgb(25, 25, 25);
+        background-color:rgb(224, 219, 219, 0.712) ;
+    }
+
+    form {
+        margin: 30px;
+        color: white;
+    }
+
+    form input, form button {
+        padding: 15px;
+    }
+
+    form button { font-size: 20px }
+    form input { font-size: 25px }
+
+    h1 {
+        font-family: 'Roboto', sans-serif; color: rgb(224, 219, 219, 0.712);
+        font-weight: bold;
+    }
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>S P A C E B A R</h1>
+    </div>
+    <div id="timer">
+        <span></span>
+        <span>:</span>
+        <span></span>
+    </div>
+    <br><br>
+    <h1>{{name}}</h1>
+    <br>
+    <p>{{{prompt}}}</p>
+
+    <br><br>
+
+    {{#if image}}
+        <img src="{{image}}" alt="">
+    {{/if}}
+
+    <br><br>
+
+    {{#if download_name}}
+        <a href="./{{id}}/download" download="{{download_name}}">
+            Download link
+        </a>
+    {{/if}}
+
+    <br><br><br><br><br>
+
+    <form>
+        <h1>ANSWER</h1>
+        <br>
+        <input name="answer" type="text" id="answer" required {{#if answered}}disabled{{/if}}>
+        <br><br><br>
+        <button type="submit" {{#if answered}}disabled{{/if}}>Submit</button>
+    </form>
+
+    <br><br><br><br>
+
+    {{#if hints.length}}
+        <h1>HINTS:</h1>
+        <br><br><br>
+
+        {{#each hints}}
+            <!-- hint prompt -->
+            <p>{{{prompt}}}</p>
+            <!-- points reduced for this hint -->
+            <p>Points reduced: {{points_reduced}}</p>
+            <!-- image prompt of the hint -->
+
+            {{#if image}}
+                <img src="{{image}}" alt="">
+            {{/if}}
+
+            <br><br><br>
+            <hr>
+            <br><br><br>
+        {{/each}}
+    {{/if}}
+
+    <br><br><br>
+
+    {{#if hints_left}}
+        <a href="./{{id}}/new_hint">get new hint (this costs points 20 points!)</a>
+    {{/if}}
+
+    <br><br><br><br><br>
+
+
+
+<script>
+    function format (n) {
+        if (n<10)
+            return "0"+n
+        
+        else 
+            return "" + n
+    }
+
+
+    let timer = document.querySelector('#timer')
+
+    let endtime = parseInt({{ deadline._seconds }})
+    let now = parseInt((new Date()).getTime()/1000)
+
+    // set initial
+    let secondsleft = endtime - now
+    let seconds = secondsleft % 60
+    let minutes = parseInt(secondsleft/60)
+
+    timer.children[0].innerHTML = format(minutes)
+    timer.children[2].innerHTML = format(seconds)
+
+    let interval = setInterval(() => {    
+        let now = parseInt((new Date()).getTime()/1000)
+        let secondsleft = endtime - now
+
+        if (secondsleft < 0) {
+            clearInterval(interval)
+        }
+
+        let seconds = secondsleft % 60
+        let minutes = parseInt(secondsleft/60)        
+
+        timer.children[0].innerHTML = format(minutes)
+        timer.children[2].innerHTML = format(seconds)
+    }, 1000)
+
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+<script>
+    const form = document.querySelector('form')
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault()
+
+        const field = form.answer
+        const submit = form.querySelector('button')
+        const answer = field.value
+
+        field.disabled = true
+        submit.disabled = true
+
+        const res = await fetch('./{{id}}', {
+            method: 'POST',
+            body: answer
+        })
+
+
+        if (res.status == 200) {
+            alert("wrong ans 👎")
+            field.disabled = false
+            submit.disabled = false
+        } 
+        
+        else if (res.status == 201) {
+            alert("correct 👍👍")
+        } 
+        
+        else {
+            alert("an error seems to have occured ):")
+        }
+    })
+</script>

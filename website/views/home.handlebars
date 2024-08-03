@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACEBAR</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<style>
+    .header {
+        background-color:rgb(25, 25, 25);
+        padding: 8px;
+        text-align: center;
+        color: rgb(204, 204, 204);
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        word-spacing: 1px;   
+    }
+
+    
+    * {
+        margin: 0px;
+    }
+
+    body {
+        background-image: url("skywalker.jpeg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    p {
+        text-align: center;
+        font-family: cursive;
+        font-size: 25;
+        color: rgb(236, 230, 230);
+   
+    }
+    
+    a:link, a:visited {
+        color:rgb(0, 0, 0);
+        background-color:rgb(40, 218, 179) ;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 50px;
+        padding-right: 50px;
+        text-decoration: none;
+        text-align: center;
+        display: inline block;
+        font-family: 'Roboto', sans-serif;
+        font-size: x-large;
+        
+
+    }
+
+    a:hover, a:active {
+        color: rgb(0, 0, 0);
+        background-color:rgb(28, 156, 128) ;
+    }
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>S P A C E B A R</h1>
+    </div>
+    <br>
+    <pre style="color: rgb(236, 230, 230); font-family: 'Roboto', sans-serif; font-size: 25;text-align: center;">
+        <h2>Welcome Hunters</h2>
+        You have been chosen by the leaders of our planet for an important mission. After the invasion of
+        the Galactic order, the entire galaxy has completely run out of cyclotron: our energy source. The
+        planets are now at the verge of extinction. But there is still hope. Our scientist have managed to
+        acquire some information about a planet called the jewel. The jewel is abundantly suffused with
+        cyclotron. But the journey to the jewel is not an easy one. Hundreds of years back the map to the
+        Jewel was broken into 3 fragments that bolted in 3 different directions. Any mortal that attempted
+        to recover the map was not to be seen ever again. Each fragment of the map is protected by deadly
+        traps. That is why our leaders have chosen brave agents like you. The Jewel is our last hope for
+        survival. We have gathered information that one of the fragments is in a planet called Lamentis.
+        Each fragment will lead you to the next one. Be the first among the other planets to unite all 3
+        fragments of the map and make your way to the Jewel.
+        Good luck
+        </pre>
+    
+
+    <br>
+    <br>
+    <p style="word-spacing: 50px;">
+        {{#each levels}}
+            <a href="/level/{{id}}">{{name}}</a>
+        {{/each}}
+    </p>
+    <br>
+    <br>
+</body>
+</html>

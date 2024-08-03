@@ -1,0 +1,19 @@
+{
+  "name": "cyber_cypher_website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "firebase-admin": "^11.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.1"
+  }
+}
